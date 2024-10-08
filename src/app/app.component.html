@@ -14,7 +14,7 @@
           {{item.amount}}
         </td>
         <td>
-          {{item.reason}}
+          {{item.descripcion}}
         </td>
         <th>
           <button (click)="updateForm(item,$index)">Actualizar</button>
@@ -30,8 +30,23 @@
   <form [formGroup]="formTransactions" (submit)="guardarForm()">
     <label for="amount">Monto</label>
     <input formControlName="amount" type="number" id="amount">
-    <label for="reason">Motivo</label>
-    <textarea formControlName="reason" id="reason"></textarea>
+    <label for="descripcion">Motivo</label>
+    <textarea formControlName="descripcion" id="descripcion"></textarea>
+
+    <label for="tipo">Tipo</label>
+    <select formControlName="tipo_transaccion_id" id="tipo">
+      <option value="null">seleccione</option>
+      @for(item of tipoTransaccions; track $index){
+        <option [value]="item.id">{{item.name}}</option>
+
+      }
+
+    </select>
+
+
+    <label for="fecha">Fecha</label>
+    <input formControlName="date" type="date" id="fecha">
+
     <button type="submit">Guardar</button>
     <button (click)="cancelarForm()">Cancelar</button>
   </form>
