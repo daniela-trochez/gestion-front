@@ -1,0 +1,7 @@
+thead{
+    color: var(--primary-color);
+}
+
+.pair{
+    background-color: var(--secondary-color);
+}
