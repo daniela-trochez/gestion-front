@@ -2,7 +2,7 @@ import { TipoTransaccionModel } from "./tipo-transaccion-model";
 
 export interface TransactionModel {
     id:number;
-    fecha:Date;
+    date:Date;
     amount:number;
     descripcion:string;
     tipo_transaccion_id:number;

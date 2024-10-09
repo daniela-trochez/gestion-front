@@ -1,8 +1,6 @@
-import { transition } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateTransaccionDTO } from '@shared/dto/create-transaccion-dto';
 import { UpdateTransaccionDTO } from '@shared/dto/update-transaccion-dto';
 import { TipoTransaccionModel } from '@shared/models/tipo-transaccion-model';
@@ -12,60 +10,57 @@ import { TransaccionService } from '@shared/services/transaccion.service';
 import { forkJoin } from 'rxjs';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-transacciones',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    CommonModule,
+  imports: [CommonModule,
     FormsModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    ReactiveFormsModule],
+  templateUrl: './transacciones.component.html',
+  styleUrl: './transacciones.component.css'
 })
-export class AppComponent implements OnInit{
- 
+export class TransaccionesComponent {
+
   private formBuilder = inject(FormBuilder);
   private transaccionService = inject(TransaccionService);
   private tipoTransaccionService = inject(TipoTransaccionService);
 
-  formTransactions:FormGroup|null = null
-  indexTransaction:number|null = null
+  formTransactions: FormGroup | null = null
+  indexTransaction: number | null = null
 
-  transactions:TransactionModel[] = [ ];
-  tipoTransaccions:TipoTransaccionModel[]=[];
+  transactions: TransactionModel[] = [];
+  tipoTransaccions: TipoTransaccionModel[] = [];
 
   ngOnInit(): void {
     this.getData();
   }
 
 
-  getData(){
+  getData() {
 
-    const datasub =  forkJoin([
+    const datasub = forkJoin([
       this.transaccionService.getAll(),
       this.tipoTransaccionService.getAll()
 
     ]).subscribe({
-      next:([transactions, tipoTransaccions])=>{
-        this.transactions=  [...transactions];
+      next: ([transactions, tipoTransaccions]) => {
+        this.transactions = [...transactions];
         this.tipoTransaccions = [...tipoTransaccions];
       },
-      complete(){
+      complete() {
         datasub.unsubscribe();
-        
+
       },
 
 
     })
   }
 
-  createForm(){
+  createForm() {
     this.formTransactions = this.formBuilder.group({
-      amount:new FormControl(null,[Validators.required]),
-      descripcion:new FormControl(null,[Validators.required]),
-      tipo_transaccion_id:new FormControl(null,[Validators.required]),
-      date:new FormControl(null,[Validators.required]),
+      amount: new FormControl(null, [Validators.required]),
+      descripcion: new FormControl(null, [Validators.required]),
+      tipo_transaccion_id: new FormControl(null, [Validators.required]),
+      date: new FormControl(null, [Validators.required]),
     });
   }
 
@@ -77,50 +72,50 @@ export class AppComponent implements OnInit{
   //   });
   // }
 
-  updateForm(transaction:TransactionModel){
-   console.log(transaction);
+  updateForm(transaction: TransactionModel) {
+    console.log(transaction);
     this.formTransactions = this.formBuilder.group({
-      id:new FormControl(transaction.id),
-      amount:new FormControl(transaction.amount,[Validators.required]),
-      descripcion:new FormControl(transaction.descripcion,[Validators.required]),
-      tipo_transaccion_id:new FormControl(transaction.tipo_transaccion_id,[Validators.required]),
-      date:new FormControl(transaction.date,[Validators.required]),
+      id: new FormControl(transaction.id),
+      amount: new FormControl(transaction.amount, [Validators.required]),
+      descripcion: new FormControl(transaction.descripcion, [Validators.required]),
+      tipo_transaccion_id: new FormControl(transaction.tipo_transaccion_id, [Validators.required]),
+      date: new FormControl(transaction.date, [Validators.required]),
 
     });
     console.log(this.formTransactions.value);
-    
+
   }
 
-  cancelarForm(){
+  cancelarForm() {
     this.indexTransaction = null;
     this.formTransactions = null;
   }
 
 
 
-  guardarForm(){
-    if (!this.formTransactions||this.formTransactions.invalid) {
+  guardarForm() {
+    if (!this.formTransactions || this.formTransactions.invalid) {
       alert("Formlario incompleto");
       return;
     }
 
-    const {value} = this.formTransactions;
+    const { value } = this.formTransactions;
 
     console.log(this.formTransactions.get('id'));
 
-    if(this.formTransactions.get('id')){
-      const nuevaTransaccion:UpdateTransaccionDTO= value as UpdateTransaccionDTO;
+    if (this.formTransactions.get('id')) {
+      const nuevaTransaccion: UpdateTransaccionDTO = value as UpdateTransaccionDTO;
       const saveSub = this.transaccionService.update(nuevaTransaccion).subscribe({
-        next:(transaccion)=>{
+        next: (transaccion) => {
           let transacciones = [...this.transactions];
-          let transaccion_index = transacciones.findIndex((transaccion)=>transaccion.id=== nuevaTransaccion.id);
-          transacciones[transaccion_index]= transaccion;
+          let transaccion_index = transacciones.findIndex((transaccion) => transaccion.id === nuevaTransaccion.id);
+          transacciones[transaccion_index] = transaccion;
           this.transactions = transacciones;
           this.cancelarForm();
 
-          
+
         },
-        complete:()=>{
+        complete: () => {
           saveSub.unsubscribe();
         },
 
@@ -132,13 +127,13 @@ export class AppComponent implements OnInit{
 
 
     const newTransaction: CreateTransaccionDTO = value as CreateTransaccionDTO;
-     const saveSub = this.transaccionService.create(newTransaction).subscribe({
-      next:(transaction)=>{
-        this.transactions = [...this.transactions,transaction];
+    const saveSub = this.transaccionService.create(newTransaction).subscribe({
+      next: (transaction) => {
+        this.transactions = [...this.transactions, transaction];
         this.cancelarForm();
 
       },
-      complete:()=>{
+      complete: () => {
 
         saveSub.unsubscribe();
 
@@ -147,7 +142,7 @@ export class AppComponent implements OnInit{
 
 
 
-    
+
   }
 
 
@@ -179,22 +174,22 @@ export class AppComponent implements OnInit{
   //   this.transactions = transactions;
   // }
 
-  deleteTransaction(id:number){
-    const deleteSub =this.transaccionService.delete(id)
-    .subscribe({
-      next:(value)=>{
-        let transaccions = [...this.transactions]
-        let  transaccion_index= transaccions.findIndex((transition)=>transition.id===id);
-        transaccions.splice(transaccion_index,1);
-        this.transactions = transaccions
+  deleteTransaction(id: number) {
+    const deleteSub = this.transaccionService.delete(id)
+      .subscribe({
+        next: (value) => {
+          let transaccions = [...this.transactions]
+          let transaccion_index = transaccions.findIndex((transition) => transition.id === id);
+          transaccions.splice(transaccion_index, 1);
+          this.transactions = transaccions
 
 
-      },
-      complete:()=>{
-        deleteSub.unsubscribe();
+        },
+        complete: () => {
+          deleteSub.unsubscribe();
 
-      },
-    })
+        },
+      })
 
 
 
