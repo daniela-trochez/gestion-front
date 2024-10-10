@@ -1,8 +1,84 @@
+.container{
 
-thead{
-    color: var(--primary-color);
+position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height:100vh ;
+    
+
 }
 
-.pair{
-    background-color: var(--secondary-color);
+.caja-botones{
+    /* position: relative; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
 }
+.btn-accion{
+    position: relative;
+    border-radius: 5px;
+    border: none;
+}
+.caja-botones .sub-text{
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translate(-50%, 0) rotate(90deg) scale(0);
+    opacity: 0;
+    padding: 10px;
+    background-color: rgb(180, 202, 202);
+    border-radius: 10px;
+    pointer-events: none;
+    transition: 0.5s;
+    
+
+}
+.caja-botones button:hover .sub-text{
+    opacity: 1;
+    transform:translate(-50%, 0) rotate(0deg)scale(1);
+    animation: burbuja;
+    animation-duration: 1s;
+
+
+}
+@keyframes burbuja {
+
+    0%{
+        transform: scale(1);
+        color: blueviolet;
+
+
+    }
+    
+    50%{
+        transform: scale(1.5);
+        color: brown;
+
+    }
+    
+    100%{
+        transform: scale(2);
+        color: aqua;
+
+    }
+    
+}
+
+
+
+.boton{
+    position: absolute;
+    top: 20px;
+}
+.container button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px; 
+    margin: 10px;
+}
+

@@ -1,17 +1,20 @@
 <p>transacciones works!</p>
 
+<main class="container">
 
-<button (click)="createForm()">Crear</button>
-<table>
-  <thead>
-    <tr>
-      <th>Monto</th>
-      <th>Motivo</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (item of transactions; track $index) {
+
+
+  <button class="boton" (click)="createForm()">Crear</button>
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th>Monto</th>
+        <th>Motivo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of transactions; track $index) {
       <tr [class.pair]="($index+1)%2===0">
         <td>
           {{item.amount}}
@@ -20,16 +23,34 @@
           {{item.descripcion}}
         </td>
         <th>
-          <button (click)="updateForm(item)">Actualizar</button>
-          <button (click)="deleteTransaction(item.id)">Borrar</button>
+          <div class="caja-botones">
+            <button class="btn-accion" (click)="updateForm(item)">
+              <span class="material-symbols-outlined">
+                update
+              </span>
+
+              <span class="sub-text">Actualizar</span>
+            </button>
+
+            <button class="btn-accion" (click)="deleteTransaction(item.id)">
+              <span class="material-symbols-outlined">
+                delete
+              </span>
+
+              <span class="sub-text">borrar</span>
+            </button>
+          </div>
+
+
+
         </th>
       </tr>
-    }@empty {
+      }@empty {
       <tr>No hay datos</tr>
-    }
-  </tbody>
-</table>
-@if (formTransactions) {
+      }
+    </tbody>
+  </table>
+  @if (formTransactions) {
   <form [formGroup]="formTransactions" (submit)="guardarForm()">
     <label for="amount">Monto</label>
     <input formControlName="amount" type="number" id="amount">
@@ -40,7 +61,7 @@
     <select formControlName="tipo_transaccion_id" id="tipo">
       <option value="null">seleccione</option>
       @for(item of tipoTransaccions; track $index){
-        <option [value]="item.id">{{item.name}}</option>
+      <option [value]="item.id">{{item.name}}</option>
 
       }
 
@@ -53,4 +74,5 @@
     <button type="submit">Guardar</button>
     <button (click)="cancelarForm()">Cancelar</button>
   </form>
-}
+  }
+</main>
