@@ -1,18 +1,47 @@
-<p>login works!</p>
+<section class="login">
 
-<div class="form-container" >
-    <form   (submit)="login()">
-      <div class="form-group">
-        <label for="email">Correo electrónico:</label>
-        <input [(ngModel)]="email" type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
+  <div class="container-login">
+    <div class="animaciones"></div>
+    <div class="form-login">
+
+      <div class="form-container">
+        <div class="logo">
+          <picture>
+            <img src="logo-sena-naranja-png-2022.png" alt="">
+          </picture>
+        </div>
+        <div class="welcome">
+          <h1>Welcome a Lissa!</h1>
+          <span>please enter your details</span>
+        </div>
+
+
+        <div class="form-container-datos">
+          <form #form class="form" (submit)="login()">
+            <div class="form-group">
+              <label [attr.name]="'correo'" for="email"></label>
+              <input (click)="addFocus()" [(ngModel)]="email" type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+              <label [attr.name]="'contraseña'" for="password"></label>
+              <input  (click)="addFocus()" [(ngModel)]="password" type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit">Iniciar sesión</button>
+          </form>
+        </div>
+        <button (click)="addFocus()">m</button>
+
+
+
+        <div class=""></div>
+        <div class=""></div>
+        <div class=""></div>
+        <div class=""></div>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label for="password">Contraseña:</label>
-        <input [(ngModel)]="password" type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
-      </div>
 
-      <button type="submit">Iniciar sesión</button>
-    </form>
   </div>
-  <h1>{{email}}</h1>
+</section>
